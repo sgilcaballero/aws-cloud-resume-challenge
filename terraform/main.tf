@@ -48,3 +48,11 @@ resource "aws_s3_object" "css" {
   source       = "../frontend/style.css"
   content_type = "text/css"
 }
+
+# 5. Upload main.js to the Bucket
+resource "aws_s3_object" "js" {
+  bucket       = aws_s3_bucket.resume_bucket.id
+  key          = "main.js"
+  source       = "../frontend/main.js"
+  content_type = "application/javascript"
+}
