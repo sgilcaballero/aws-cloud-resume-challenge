@@ -5,7 +5,10 @@ services:
     ports:
       - "127.0.0.1:4566:4566"            # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559"  # External services port range
+    env_file:
+      - .env
     environment:
+      - LOCALSTACK_API_ID=${LOCALSTACK_API_ID}  # Injects the ID from your .env file
       - DEBUG=1                          # Enable more verbose logs
       - DOCKER_HOST=unix:///var/run/docker.sock # Communicate with docker daemon
       - LOCALSTACK_HOST=localstack       # Internal container hostname lookup

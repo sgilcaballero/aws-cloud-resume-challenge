@@ -93,3 +93,6 @@ $RECYCLE.BIN/
 *.log
 logs/
 *.sys
+
+# Other
+.aws-sam/
