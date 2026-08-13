@@ -53,7 +53,7 @@ Before deploying the local cloud, ensure the following software stack is install
 We will build and debug this stack over four incremental milestones:
 
 ### 📑 Phase 1: Local Cloud Setup & Network Routing
-*   Create a dual-container layout using `docker-compose.yml` to pair LocalStack and Caddy.
+*   Create a dual-container layout using `docker-compose.yml` and `Caddyfile` to pair LocalStack and Caddy.
 *   Edit the Windows `hosts` file to register local development domains (`resume.local`, `api.local`).
 *   Establish Caddy's auto-generation of locally trusted SSL credentials.
 
@@ -71,7 +71,6 @@ We will build and debug this stack over four incremental milestones:
 *   Write browser-native JavaScript (`fetch()`) inside `index.html` to load and parse counter payloads.
 *   Configure the local API Gateway CORS headers via Terraform to whitelist the `resume.local` domain.
 *   Verify the fully functional end-to-end loop securely over local HTTPS.
-*   
 
 ---
 
