@@ -1,18 +1,15 @@
-# Front-end Routing (Emulating S3 Static Website / CloudFront Distribution)
-resume.local {
-    # Force Caddy to issue and trust an internal self-signed SSL certificate
+# Front-end Routing (Emulating S3 Static Website Hosting)
+resume.local:443 {
     tls internal
 
-    # Proxy web requests straight into the LocalStack S3 emulator endpoint
+    # Route request to the LocalStack S3 Website hosting domain pattern
     reverse_proxy localstack:4566 {
-        header_up Host {http.reverse_proxy.header.X-Forwarded-Host}
+        header_up Host local-cloud-resume-bucket.s3-website.localhost.localstack.cloud
     }
 }
 
 # Back-end API Routing (Emulating Custom API Gateway Domain Mapping)
-api.local {
+api.local:443 {
     tls internal
-
-    # Routes API requests straight to our local serverless REST engine
     reverse_proxy localstack:4566
 }
