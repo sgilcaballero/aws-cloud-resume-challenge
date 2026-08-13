@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Cloud Resume Challenge Serverless Backend Application
+
+Resources:
+  # 1. DynamoDB Table Resource
+  CounterTable:
+    Type: AWS::Serverless::SimpleTable
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: cloud-resume-challenge-counter
+      PrimaryKey:
+        Name: id
+        Type: String
+
+  # 2. Lambda Function & API Gateway Integration Resource
+  CounterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: counter/
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.12
+      Events:
+        CounterApi:
+          Type: Api
+          Properties:
+            Path: /counter
+            Method: post
+
+Outputs:
+  ApiEndpoint:
+    Description: "The generated HTTP entrypoint endpoint path"
+    Value: 
+      Fn::Sub: "https://api.local"

@@ -1,0 +1,19 @@
+# Front-end Routing (Emulating S3 Static Website Hosting)
+resume.local:443 {
+    tls internal
+    
+    # Route request to the LocalStack S3 Website hosting domain pattern
+    reverse_proxy localstack:4566 {
+        header_up Host local-cloud-resume-bucket.s3-website.localhost.localstack.cloud
+    }
+}
+
+# Back-end API Routing (Emulating API Gateway Custom Domain Mapping)
+api.local:443 {
+    tls internal
+
+    # Rewrite your browser traffic straight into LocalStack's internal REST API path layout
+    reverse_proxy localstack:4566 {
+        header_up Host {env.LOCALSTACK_API_ID}.execute-api.localhost.localstack.cloud
+    }
+}

@@ -1,0 +1,45 @@
+services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack-pro:latest
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # External services port range
+    env_file:
+      - .env
+    environment:
+      - LOCALSTACK_API_ID=${LOCALSTACK_API_ID}  # Injects the ID from your .env file
+      - DEBUG=1                          # Enable more verbose logs
+      - DOCKER_HOST=unix:///var/run/docker.sock # Communicate with docker daemon
+      - LOCALSTACK_HOST=localstack       # Internal container hostname lookup
+      - ENFORCE_IAM=1                    # Enforce strict AWS IAM policies
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN:?}
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - crc-network
+
+  caddy:
+    container_name: caddy-proxy
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"              # Plain HTTP mapping
+      - "127.0.0.1:8443:443"             # HTTPS (CloudFront emulation)
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile  # Mount your local routing rules
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - localstack
+    networks:
+      - crc-network
+
+networks:
+  crc-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
