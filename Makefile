@@ -5,7 +5,7 @@ export AWS_DEFAULT_REGION=us-east-1
 # Dynamically locate the samlocal executable on Windows at runtime (bypasses absolute paths)
 SAMLOCAL := $(shell for /f "delims=" %%i in ('where samlocal.bat') do @echo %%i& exit)
 
-## Deploy everything (Front-end with Terraform, Back-end with SAM)
+## Deploy Front-end with Terraform & Back-end with SAM
 deploy:
 	@echo "Deploying Front-end via Terraform..."
 	cd terraform && lstk tf init && lstk tf plan && lstk tf apply --auto-approve

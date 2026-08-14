@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
     environment:
-      - LOCALSTACK_API_ID=${LOCALSTACK_API_ID}  # Injects the ID from your .env file
+      - LOCALSTACK_API_ID=${LOCALSTACK_API_ID}  # Injects the ID from the .env file
       - DEBUG=1                          # Enable more verbose logs
       - DOCKER_HOST=unix:///var/run/docker.sock # Communicate with docker daemon
       - LOCALSTACK_HOST=localstack       # Internal container hostname lookup

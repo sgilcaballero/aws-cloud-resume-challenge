@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 const getVisitCount = () => {
-    // Target your local proxy network mapping over secure developer ports
+    // Target the local proxy network mapping over secure developer ports
     fetch('https://api.local:8443/Prod/counter', {
         method: 'POST'
     })
